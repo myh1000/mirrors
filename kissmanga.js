@@ -10,23 +10,23 @@ var KissManga = {
     getMangaList: function (search, callback) {
         "use strict";
         console.log("same");
-        // $.ajax({
-        //     url: "http://kissmanga.com/MangaList",
-        //     beforeSend: function (xhr) {
-        //         xhr.setRequestHeader("Cache-Control", "no-cache");
-        //         xhr.setRequestHeader("Pragma", "no-cache");
-        //     },
-        //     success: function (objResponse) {
-        //         var div = document.createElement("div");
-        //         div.innerHTML = objResponse.replace(/<img/gi, '<noload');
-        //         var res = [];
-        //         console.log(div.innerHTML);
-        //         $("a.name", div).each(function (index) {
-        //             res.push([$(this).text(), 'http://kissmanga.com' + $(this).attr('href')]);
-        //         });
-        //         callback("KissManga", res);
-        //     }
-        // });
+        $.ajax({
+            url: "http://kissmanga.com/MangaList",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Cache-Control", "no-cache");
+                xhr.setRequestHeader("Pragma", "no-cache");
+            },
+            success: function (objResponse) {
+                var div = document.createElement("div");
+                div.innerHTML = objResponse.replace(/<img/gi, '<noload');
+                var res = [];
+                console.log(div.innerHTML);
+                $("a.name", div).each(function (index) {
+                    res.push([$(this).text(), 'http://kissmanga.com' + $(this).attr('href')]);
+                });
+                callback("KissManga", res);
+            }
+        });
     },
     getListChaps: function (urlManga, mangaName, obj, callback) {
         "use strict";
