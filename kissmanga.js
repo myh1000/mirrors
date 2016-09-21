@@ -9,7 +9,6 @@ var KissManga = {
     },
     getMangaList: function (search, callback) {
         "use strict";
-        console.log("same");
         $.ajax({
             url: "http://kissmanga.com/MangaList",
             beforeSend: function (xhr) {
@@ -40,8 +39,9 @@ var KissManga = {
                 var div = document.createElement("div"),
                     res = [];
                 div.innerHTML = objResponse.replace(/<img/gi, '<noload');
-                $('.table-striped a', div).each(function () {
-                    res[res.length] = [$(this).text().trim(), $(this).attr("href")];
+                console.log(urlManga);
+                $(".listing td a", div).each(function (index) {
+                    res[res.length] = [$(this).text().trim(), "http://kissmanga.com"+$(this).attr("href")];
                 });
                 callback(res, obj);
             }
@@ -49,39 +49,34 @@ var KissManga = {
     },
     getInformationsFromCurrentPage: function (doc, curUrl, callback) {
         "use strict";
-        var name = $('.dropdown-toggle .hidden-sm', doc)[0].innerText,
-            currentChapter = $('.btn-group .dropdown-toggle', doc)[0].innerText.replace(name, '').trim(),
-            currentMangaURL = $('.btn-group .dropdown-menu:first a:last', doc).attr('href'),
-            currentChapterURL = $('.dropdown-menu:last a:first', doc).attr('href');
+        var name = $("title", doc).text();
+        name = name.split("\n", 3).join("\n").substring(12).trim();
+        var currentMangaURL = curUrl.split("/", 5).join("/");
+        // var currentChapter = parseInt($(".selectChapter option:selected", doc)[0].textContent.trim().substring(3, 6)),
+        var currentChapter = $(".selectChapter option:selected", doc)[0].textContent.trim(),
+            currentChapterURL = window.location.href;
         callback({
             "name": name,
-            "currentChapter": currentChapter,
+            "currentChapter": currentChapter.replace("- ",""),
             "currentMangaURL": currentMangaURL,
-            "currentChapterURL": currentChapterURL
+            "currentChapterURL": curUrl
         });
     },
     getListImages: function (doc, curUrl) {
-        "use strict";
+        // "use strict";
         var res = [];
-        var last = $('.dropdown-menu:last li a:last', doc);
-        var npages = parseInt(last.text().replace(/[^0-9]/g, ''));
-        var baseUrl = last.attr('href').replace(/\/[^/]*$/g, '/');
-        while (npages > 0)
-        {
-            res[npages - 1] = baseUrl + npages;
-            npages--;
-        }
+        // var last = $('.dropdown-menu:last li a:last', doc);
+        // var npages = parseInt(last.text().replace(/[^0-9]/g, ''));
+        // var baseUrl = last.attr('href').replace(/\/[^/]*$/g, '/');
+        // while (npages > 0)
+        // {
+        //     res[npages - 1] = baseUrl + npages;
+        //     npages--;
+        // }
         return res;
     },
     removeBanners: function (doc, curUrl) {
         "use strict";
-        $('.banner-ad', doc).remove();
-        $('#reader-sky', doc).appendTo('.row-fluid.page-wrap', doc);
-        $('#reader-sky', doc).css('margin-left', 'auto');
-        $('#reader-sky', doc).css('margin-right', 'auto');
-        $('#reader-sky', doc).css('left', 'auto');
-        $('#reader-sky', doc).css('right', 'auto');
-        $('#reader-sky', doc).css('position', 'relative');
     },
     whereDoIWriteScans: function (doc, curUrl) {
         "use strict";
@@ -93,17 +88,10 @@ var KissManga = {
     },
     isCurrentPageAChapterPage: function (doc, curUrl) {
         "use strict";
-        return ($("#manga-page", doc).size() > 0);
+        return ($("#divImage", doc).size() > 0);
     },
     doSomethingBeforeWritingScans: function (doc, curUrl) {
         "use strict";
-        $(".page", doc).empty();
-        $(".page", doc).css("width", "auto");
-        $(".sub-nav", doc).hide();
-        $(".page", doc).append("<div class='navAMR'></div>");
-        $(".page", doc).append("<div class='scanAMR'></div>");
-        $(".page", doc).append("<div class='navAMR'></div>");
-        $(".navAMR", doc).css("text-align", "center");
     },
     nextChapterUrl: function (select, doc, curUrl) {
         "use strict";
@@ -121,16 +109,6 @@ var KissManga = {
     },
     getImageFromPageAndWrite: function (urlImg, image, doc, curUrl) {
         "use strict";
-        $.ajax({
-            url: urlImg,
-            success: function (objResponse) {
-                var div = document.createElement("div"),
-                    src;
-                div.innerHTML = objResponse;
-                src = $("img#manga-page", div).attr("src");
-                $(image).attr("src", src);
-            }
-        });
     },
     isImageInOneCol: function (img, doc, curUrl) {
         "use strict";
@@ -142,7 +120,6 @@ var KissManga = {
     },
     doAfterMangaLoaded: function (doc, curUrl) {
         "use strict";
-        $("body > div:empty", doc).remove();
     }
 };
 
