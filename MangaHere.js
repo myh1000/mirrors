@@ -75,6 +75,7 @@ var MangaHere = {
         currentChapterURL = $($(".readpage_top .title a", doc)[0]).attr("href");
 		console.log(currentChapterURL);
         currentMangaURL = $($(".readpage_top .title a", doc)[1]).attr("href");
+        console.log(currentChapter);
         callback({
             "name": name,
             "currentChapter": currentChapter,

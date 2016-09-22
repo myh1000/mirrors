@@ -1,6 +1,6 @@
 var KissManga = {
     mirrorName: "KissManga",
-    canListFullMangas: true,
+    canListFullMangas: false,
     mirrorIcon: "img/kissmanga.png",
     languages: "en",
     isMe: function (url) {
@@ -10,7 +10,7 @@ var KissManga = {
     getMangaList: function (search, callback) {
         "use strict";
         $.ajax({
-            url: "http://kissmanga.com/MangaList",
+            url: "http://kissmanga.com/Search/Manga/" + search,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Cache-Control", "no-cache");
                 xhr.setRequestHeader("Pragma", "no-cache");
@@ -19,16 +19,16 @@ var KissManga = {
                 var div = document.createElement("div");
                 div.innerHTML = objResponse.replace(/<img/gi, '<noload');
                 var res = [];
-                console.log(div.innerHTML);
-                $("a.name", div).each(function (index) {
-                    res.push([$(this).text(), 'http://kissmanga.com' + $(this).attr('href')]);
+                $(".listing td a", div).each(function (index) {
+                    if(!$(this).attr("href").includes("?id=")){
+                        res[res.length] = [$(this).text().trim(), "http://kissmanga.com"+$(this).attr("href")];
+                    }
                 });
                 callback("KissManga", res);
             }
         });
     },
     getListChaps: function (urlManga, mangaName, obj, callback) {
-        "use strict";
         $.ajax({
             url: urlManga,
             beforeSend: function (xhr) {
@@ -39,7 +39,6 @@ var KissManga = {
                 var div = document.createElement("div"),
                     res = [];
                 div.innerHTML = objResponse.replace(/<img/gi, '<noload');
-                console.log(urlManga);
                 $(".listing td a", div).each(function (index) {
                     res[res.length] = [$(this).text().trim(), "http://kissmanga.com"+$(this).attr("href")];
                 });
