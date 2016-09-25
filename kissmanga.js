@@ -19,12 +19,22 @@ var KissManga = {
                 var div = document.createElement("div");
                 div.innerHTML = objResponse.replace(/<img/gi, '<noload');
                 var res = [];
-                $(".listing td a", div).each(function (index) {
-                    if(!$(this).attr("href").includes("?id=")){
-                        res[res.length] = [$(this).text().trim(), "http://kissmanga.com"+$(this).attr("href")];
-                    }
+                $('.bigChar', div).each(function (index) {
+                    res[res.length] = [$(this).text().trim(), "http://kissmanga.com"+$(this).attr("href")];
+                    console.log($(this).text());
+                    console.log(res.length);
                 });
-                callback("KissManga", res);
+                if (res.length > 0) {
+                    callback(res, obj);
+                }
+                else {
+                    $(".listing td a", div).each(function (index) {
+                        if(!$(this).attr("href").includes("?id=")){
+                            res[res.length] = [$(this).text().trim(), "http://kissmanga.com"+$(this).attr("href")];
+                        }
+                    });
+                    callback("KissManga", res);
+                }
             }
         });
     },
