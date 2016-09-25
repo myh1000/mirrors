@@ -21,11 +21,9 @@ var KissManga = {
                 var res = [];
                 $('.bigChar', div).each(function (index) {
                     res[res.length] = [$(this).text().trim(), "http://kissmanga.com"+$(this).attr("href")];
-                    console.log($(this).text());
-                    console.log(res.length);
                 });
                 if (res.length > 0) {
-                    callback(res, obj);
+                    callback("KissManga", res);
                 }
                 else {
                     $(".listing td a", div).each(function (index) {
