@@ -4,7 +4,7 @@ var kireicake = {
     mirrorIcon : "img/KireiCake.png",
     languages : "en",
     isMe : function (url) {
-        return (url.indexOf("reader.kireicake.com") !== -1);
+        return (url.indexOf("kireicake.com") !== -1);
     },
     getMangaList : function (search, callback) {
         $.ajax({
@@ -84,7 +84,7 @@ var kireicake = {
         return $(".navAMR", doc);
     },
     isCurrentPageAChapterPage : function (doc, curUrl) {
-        return (curUrl.search('reader.kireicake.com/reader/read/') > -1);
+        return (curUrl.search('reader.kireicake.com/read/') > -1);
     },
     doSomethingBeforeWritingScans : function (doc, curUrl) {
         if (typeof doc.createElement === 'function') {
