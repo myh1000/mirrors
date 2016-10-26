@@ -154,6 +154,9 @@ var Batoto = {
         var mod_bar = $(".moderation_bar", doc);
         $("li:not(:first)", mod_bar).remove();
         mod_bar.css("height", "8px");
+        $(".moderation_bar a", doc).css("color", "white");
+        $(".moderation_bar a", doc).attr("onmouseover", "this.style.color='grey';");
+        $(".moderation_bar a", doc).attr("onmouseout", "this.style.color='white';");
         mod_bar.css("margin-bottom", "0px");
         mod_bar.css("padding-top", "0px");
 
