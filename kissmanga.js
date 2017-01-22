@@ -59,9 +59,12 @@ var KissManga = {
         var name = $("title", doc).text();
         name = name.split("\n", 3).join("\n").substring(12).trim();
         var currentMangaURL = curUrl.split("/", 5).join("/");
-        // var currentChapter = parseInt($(".selectChapter option:selected", doc)[0].textContent.trim().substring(3, 6)),
-        var currentChapter = $(".selectChapter option:selected", doc)[0].textContent.trim(),
-            currentChapterURL = window.location.href;
+        if ($("#selectReadType option:selected", doc)[0].textContent.trim() === "One page") {
+            var currentChapter = $("#selectChapter option:selected", doc)[0].textContent.trim();
+        }
+        else {
+            var currentChapter = $(".selectChapter option:selected", doc)[0].textContent.trim();
+        }
         callback({
             "name": name,
             "currentChapter": currentChapter.replace("- ",""),
