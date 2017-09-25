@@ -8,7 +8,7 @@ var DynastyScans = {
     },
     getMangaList : function (search, callback) {
         $.ajax({
-            url : "http://dynasty-scans.com/search?q=" + search + "&type=series",
+            url : "https://dynasty-scans.com/search?q=" + search + "&classes%5B%5D=Series",
             beforeSend : function (xhr) {
                 xhr.setRequestHeader("Cache-Control", "no-cache");
                 xhr.setRequestHeader("Pragma", "no-cache");
@@ -18,7 +18,7 @@ var DynastyScans = {
                 div.innerHTML = objResponse.replace(/<img/gi, '<noload');
                 var res = [];
                 $("a.name", div).each(function (index) {
-                    res.push([$(this).text(), 'http://dynasty-scans.com' + $(this).attr('href')]);
+                    res.push([$(this).text(), 'https://dynasty-scans.com' + $(this).attr('href')]);
                 });
                 callback("Dynasty Scans", res);
             }
@@ -36,7 +36,7 @@ var DynastyScans = {
                 div.innerHTML = objResponse.replace(/<img/gi, '<noload');
                 var res = [];
                 $("a.name", div).each(function (index) {
-                    res.push([$(this).text(), 'http://dynasty-scans.com' + $(this).attr('href')]);
+                    res.push([$(this).text(), 'https://dynasty-scans.com' + $(this).attr('href')]);
                 });
                 res.reverse();
                 callback(res, obj);
@@ -46,7 +46,7 @@ var DynastyScans = {
     getInformationsFromCurrentPage : function (doc, curUrl, callback) {
         var name = $('#chapter-title a:first', doc).text();
         var currentChapter = $('#chapter-title b', doc).contents()[1].textContent.trim();
-        var currentMangaURL = 'http://dynasty-scans.com' + $('#chapter-title a:first', doc).attr('href');
+        var currentMangaURL = 'https://dynasty-scans.com' + $('#chapter-title a:first', doc).attr('href');
         var currentChapterURL = curUrl;
         callback({
             "name" : name,
@@ -65,7 +65,7 @@ var DynastyScans = {
                 div.innerHTML = response;
                 var pages = JSON.parse($(div).html().match(/var pages = .*$/m)[0].replace(/^[^[]*|;$/g, ''));
                 pages.forEach(function (page) {
-                    res.push('http://dynasty-scans.com' + page.image);
+                    res.push('https://dynasty-scans.com' + page.image);
                 });
             }
         });
@@ -93,7 +93,7 @@ var DynastyScans = {
         $('#reader', doc).append("<div class='imgAMR'></div>");
         $('#reader', doc).append("<div class='navAMR'></div>");
         $(".navAMR", doc).css("text-align", "center");
-      	$(".spanForImg", doc).css("float", "none");
+     //  	$(".spanForImg", doc).css('float', 'center'); added in back.js
     },
     nextChapterUrl : function (select, doc, curUrl) {
         if ($(select).children("option:selected").prev().size() !== 0) {
