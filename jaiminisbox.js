@@ -66,7 +66,7 @@ var jaiminisbox = {
             success : function (response) {
                 var div = document.createElement("div");
                 div.innerHTML = response;
-                var pages = JSON.parse($(div).html().match(/var pages = .*$/m)[0].replace(/^[^[]*|;$/g, ''));
+                var pages = eval($(div).html().match(/var pages = .*$/m)[0].replace(/^[^J]*|;$/g, ''));
                 pages.forEach(function (page) {
                     res.push(page.url);
                 });
